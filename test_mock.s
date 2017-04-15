@@ -1,6 +1,6 @@
 ; Mockingboard Demo Note
 ; Clean up by Michael Pohoreski
-; http:
+; http: https://github.com/Michaelangel007/apple2_mockingboard.git
 ; Assembler: cc65
 ;
 ; Original:
