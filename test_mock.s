@@ -21,7 +21,7 @@
             .word __END - __MAIN        ; 2 byte BLOAD size
 
 ; Mockingboard Base Address
-            ADDR6522        = $C400     ; *** Default Mockingobard to slot 4 ***
+            ADDR6522        = $C400     ; *** Default Mockingboard to slot 4 ***
 
 ; Programmable Sound Generator
             MOCK_TONE_LOW   = $0        ; Tone Control Fine   Reg 0/2/4: lo 8-bit
