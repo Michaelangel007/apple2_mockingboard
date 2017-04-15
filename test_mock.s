@@ -228,7 +228,7 @@ DelayA:
 ; ____________________ Mockingboard 1 ____________________ 
 
 ; ====================
-; Initialize Mockinboard
+; Initialize Mockingboard
 ; ====================
 MOCK1_Init:
             lda #_6522_PORT_B_OUT
@@ -264,7 +264,7 @@ MOCK1_PokeXA:
             ; NOTE: Intentional fall-into!
 
 ; ====================
-; Poke (set) byte to Mockinboard
+; Poke (set) byte to Mockingboard
 ; IN:
 ;   X = Register: $0 .. $D
 ;   Y = Value
@@ -328,7 +328,7 @@ mockN_off_data:
 ; ____________________ Mockingboard 2 ____________________ 
 
 ; ====================
-; Initialize Mockinboard
+; Initialize Mockingboard
 ; ====================
 MOCK2_Init:
             lda #_6522_PORT_B_OUT
@@ -364,7 +364,7 @@ MOCK2_PokeXA:
             ; NOTE: Intentional fall-into!
 
 ; ====================
-; Poke (set) byte to Mockinboard
+; Poke (set) byte to Mockingboard
 ; IN:
 ;   X = Register: $0 .. $D
 ;   Y = Value
