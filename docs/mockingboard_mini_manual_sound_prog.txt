@@ -1,0 +1,125 @@
+MockingBoard Mini-manual (Part 2): Sound Programming 
+
+
+    The user can set Tone Frequency (12 bits, 4 coarse & 8 fine)* and 
+Amplitude (4 bits) for each channel individually. A fifth Amplitude bit 
+lets 
+you decide if a channel's Level will be "fixed" (use the Level value)  or 
+"variable" (i.e. follow the current Envelope pattern). You can set NG 
+Frequency (4 bits)*  but not level. 
+
+
+*Tone Freq = A2 Clock Freq/ [ (4096 x Coarse) + (16 x Fine) ] 
+ Noise Freq = A2 Clock Freq/ (16 x NG value) 
+
+
+    The Envelope of the combined outputs of enabled sources can be 
+controlled 
+for Period (16 bits, 8 coarse & 8 fine)**  and, roughly, for Shape (4 
+bits). 
+
+
+**Env Freq = A2 Clock Freq/ [ (65536 x Coarse) + (256 x Fine) ] 
+
+
+    The registers of the PSG are described briefly below: 
+
+
+Reg.    Function & Bit(s) used 
+
+
+00       A Freq. fine (0-7) 
+01       A Freq. coarse (0-3) 
+02       B Freq. fine (0-7) 
+03       B Freq. coarse (0-3) 
+04       C Freq. fine (0-7) 
+05       C Freq. coarse (0-3) 
+06       NG Freq. (0-4) 
+07       Enable =0/ Disable =1 
+
+
+  NG on A (5)  on B (4)  on C (3) 
+  Tone on A (2)  on B (1)  on C (0) 
+  Ex: Writing $F0 to Reg 07 plays tones A, B, C plus noise on C 
+
+
+08      A Level (0-3) and 
+     Envelope Control (4):  1 = Use Env;  0 = Use Level value 
+
+
+09      B Level (0-3) and ... 
+0A     C Level (0-3) and ... 
+0B     Envelope Period Fine (0-7) 
+0C     Envelope Period Coarse (0-7) 
+0D     Envelope Shape (four bits) 
+
+
+  Continue (3)  0= do 1 cycle and set Level to zero 
+  Attack (2) 1= count up  0= count down 
+  Alternate (1)  1= reverse count direction each cycle 
+  Hold (0)  1= do 1 cycle and hold count 
+
+
+   To program the MB you write to the board's 6522 I/O chip(s). All 
+addresses reference here are for a MB Sound II (2 Output channels) in Slot 
+4. 
+
+
+$C400  ORB1  function to perform, OUT 1 
+$C480  ORB2  function to perform, OUT 2 
+$C401  ORA1  data, OUT 1 
+$C481  ORA2  data, OUT 2 
+$C402  DDRB1 data direction, OUT 1 
+$C482  DDRB2 data direction, OUT 2 
+$C403  DDRA1 data direction, OUT 1 
+$C483  DDRA2 data direction, OUT 2 
+
+
+Before sending music, etc. data to the MB you must Initialize the board's 
+I/O. To Initialize the 6522's: Store $FF at $C402 and the other three 
+DDRxx addresses. This needs to be done by your program just once. 
+
+
+Your program gets access to a PSG via the 6522 by using a few basic 
+Function codes which set the PSG's I/O control lines: 
+
+
+  Set Inactive = $04  Set PSG Reg# = $07   Write Data = $06   Reset = $00 
+
+
+To Write to a PSG register: Tell the PSG which Register you wish to access 
+(i.e. Set the "current register" #) and Write the data. This is easiest to 
+do with subroutines to handle the basic Functions.   
+
+
+Example Subroutines (for Output Channel 1): 
+
+
+Set Reg #     1000:  A9 07   8D 00 C4   A9 04   8D 00 C4   60 
+Write Data    100B:  A9 06   8D 00 C4   A9 04   8D 00 C4   60 
+
+
+Notice that each Function sub ends by setting the PSG control lines to 
+Inactive. 
+Similarly, to do a Reset (set all PSG regs to zero) ... 
+
+
+Reset           1016:  A9 00   8D 00 C4   A9 04   8D 00 C4   60 
+
+
+To put the value $55 in PSG Register 02 (Channel B Freq. fine) .... 
+
+
+1080: A9 02         put Reg#  in A 
+1082: 8D 01 C4    store A at the Data address ORA1 
+1085: 20 00 10     JSR to Set Reg#  (sets "current register" to Register 
+2) 
+1088: A9 55         put the value $55 in A 
+108A: 8D 01 C4    store A at the Data address ORA1 
+108D: 20 0B 10    JSR to Write Data  ($55 goes into PSG Register 2) 
+1090: 60              Exit from subroutine 
+
+
+    Good luck! 
+
+
