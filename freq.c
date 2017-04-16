@@ -123,7 +123,7 @@ APPENDIX E
     B     8       7902.080   0   8    00 08
 
 
-And here are the correc frequencies and tones
+Here are the correct frequencies and tones
 along with the relative error:
 
     Note  Frequency     Tone   reproduced  Relative Error
