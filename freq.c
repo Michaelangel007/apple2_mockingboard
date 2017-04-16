@@ -287,8 +287,14 @@ double MockingboardGetFreq( int tone_period )
 
 
 // ========================================================================
-int main()
+int main( const int nArg, const char *aArg[] )
 {
+    (void) nArg;
+
+    // 0freq = asm low  byte
+    // 1freq = asm high byte
+    int is_asm = 1*(aArg[0][0] == '0') +
+                 2*(aArg[0][0] == '1') ;
     const char *names[ 12 ] =
     {
         "A ", // 2^( 0/12)
@@ -321,6 +327,16 @@ int main()
             double measure = MockingboardGetFreq( tone );
             double rel_err = (measure - actual) / actual * 100.0;
 
+if( is_asm )
+            printf( "%*s.byte $%02X ; %c%d%c %8.3f Hz\n"
+                , 8, " "
+                ,(tone >> ((is_asm-1) * 8)) & 0xFF
+                , names[ half_step ][0]
+                , octave + (half_step > 2)
+                , names[ half_step ][1]
+                , actual
+            );
+else
             printf( "%c%d%c %8.3f Hz -> $%04X ~%8.3f Hz  (%5.3f %%)\n"
                 , names[ half_step ][0]
                 , octave + (half_step > 2)
