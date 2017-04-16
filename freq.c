@@ -257,9 +257,9 @@ Mockingboard:
     NTSC Cycle = 14.31818 / 14 = 1.0227271429... MHz = 1022727 Hz
     PAL  Cycle = 14.25    / 14 = 1.0178571429... MHz = 1017857 Hz
 
-    n = 1,022,727 / freq
-    Course = n / 4096
-    Fine   = (n - (4069*Course)) / 16
+    n      = Floor( 1,022,727 / freq )
+    Course = Floor( n / 4096 )
+    Fine   = (n - (4096*Course)) / 16
 */
 
 
