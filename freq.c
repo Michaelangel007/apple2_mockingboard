@@ -340,12 +340,14 @@ if( is_asm )
                 , actual
             );
 else
-            printf( "%c%d%c %8.3f Hz -> $%04X ~%8.3f Hz  (%5.3f %%)\n"
+            printf( "%c%d%c %8.3f Hz -> $%04X (%3d %3d) ~%8.3f Hz  (%5.3f %%)\n"
                 , names[ half_step ][0]
                 , octave + (half_step > 2)
                 , names[ half_step ][1]
                 , actual
                 , tone
+                , (tone >> 8) & 0xFF
+                , (tone >> 0) & 0xFF
                 , measure
                 , rel_err
             );
