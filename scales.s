@@ -300,13 +300,11 @@ note_to_tone_lo:
             .byte $B7 ; F4   349.228 Hz
             .byte $AC ; F4#  369.994 Hz
             .byte $A3 ; G4   391.995 Hz
-            .byte $99 ; G4#  415.305 Hz
+            .byte $9A ; G4#  415.305 Hz
             .byte $91 ; A4   440.000 Hz
             .byte $89 ; A4#  466.164 Hz
             .byte $81 ; B4   493.883 Hz
-
             .byte $7A ; C5   523.251 Hz
-            .byte $73 ; C5#  554.365 Hz
 
 note_to_tone_hi:
 
