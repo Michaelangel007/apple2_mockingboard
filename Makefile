@@ -1,5 +1,8 @@
 all: test_mock scales freq
 
+clean:
+	rm freq 0freq 1freq
+
 .PHONY: test_mock
 
 C_FLAGS=-Wall -Wextra
@@ -14,4 +17,6 @@ scales: scales.s
 
 freq: freq.c
 	g++ $(C_FLAGS) $< -o $@
+	cp freq 0freq
+	cp freq 1freq
 
